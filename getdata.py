@@ -18,23 +18,7 @@ def main():
     driver.get(url)
     print("Connected")
     
-    try:
-      login_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn-secondary[data-toggle='login-modal']"))
-      )
-      login_button.click()
-      
-      username = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "id_username"))
-      )
-      username.send_keys(credentials['username'])
-      
-      pin = driver.find_element(By.ID, "id_password")
-      pin.send_keys(credentials['pwd'])
-      pin.send_keys(Keys.RETURN)
-      print("Successfully Logged In")
-    except:
-      print("Login Failed")
+    login(driver)
         
     searchInput = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.ID, "search-sounds"))
@@ -66,6 +50,26 @@ def main():
 
   finally:
     driver.quit()
+    
+    
+def login(d):
+  try:
+    login_button = WebDriverWait(d, 10).until(
+      EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn-secondary[data-toggle='login-modal']"))
+    )
+    login_button.click()
+    
+    username = WebDriverWait(d, 10).until(
+      EC.presence_of_element_located((By.ID, "id_username"))
+    )
+    username.send_keys(credentials['username'])
+    
+    pin = d.find_element(By.ID, "id_password")
+    pin.send_keys(credentials['pwd'])
+    pin.send_keys(Keys.RETURN)
+    print("Successfully Logged In")
+  except:
+    print("Login Failed")
   
 
 if __name__ == "__main__":
